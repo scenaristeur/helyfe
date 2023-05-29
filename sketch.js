@@ -17,7 +17,7 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
-  duration: 60, /// 5, //60, for rotation
+  duration: 10, /// 5, //60, for rotation
 };
 
 let eventBalls = [];
@@ -70,7 +70,7 @@ const sketch = ({ context }) => {
     let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
     // selon wolfram // hyperbole
     let x = (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
-    let z = (Math.sinh(theta) * 2*Math.sin(params.torsion * alpha)) / bottom;
+    let z = (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
     let y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
     //console.log(x,y,z)
 

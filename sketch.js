@@ -44,7 +44,7 @@ const sketch = ({ context }) => {
 
   function Helicoid(u, v, target) {
     let alpha = Math.PI * 2* (u - 0.5); // transformer u en (u-0.5) double
-    let theta = Math.PI * 2 * v; //(v - 0.5); //
+    let theta = Math.PI * 2 *(v - 0.205); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
 
     // sphere
     // let x = Math.sin(alpha)*Math.cos(theta)
@@ -65,8 +65,8 @@ const sketch = ({ context }) => {
     let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
     // selon wolfram // hyperbole
     let x = (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
-    let y = (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
-    let z = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
+    let z = (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
+    let y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
 
     // selon video à 24 mins // pyramide
     // let x = Math.sinh(alpha) * Math.cos(params.torsion * theta)/bottom
@@ -95,7 +95,7 @@ const sketch = ({ context }) => {
     roughness: 0,
     metalness: 0.5,
     reflectivity: 0.5,
-    clearcoat: 0,
+    clearcoat: 1,
     clearcoatRoughness: 0.4,
     flatShading: true,
     side: THREE.DoubleSide,

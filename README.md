@@ -23,6 +23,14 @@ node sketch.js
 # geometry : Parametric Geometry 
 - https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
 
+# three ui Text, buttons 
+- https://felixmariotto.github.io/three-mesh-ui/#basic_setup
+
+# three dat.gui
+- https://www.youtube.com/watch?v=JyhhHhoqK2o&t=224s
+- https://sbcode.net/threejs/dat-gui/
+- https://github.com/dataarts/dat.gui/tree/master
+
 
 
 

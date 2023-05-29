@@ -15,5 +15,16 @@ if issue, see ISSUES.md
 ```
 node sketch.js
 
-
 ```
+
+# material tools MeshPhysicalMaterial
+- https://threejs.org/docs/#api/en/materials/MeshPhysicalMaterial
+
+
+
+
+# nice inspiration 
+- https://twitter.com/Morphinart
+- https://mathworld.wolfram.com/HyperbolicHelicoid.html
+- https://mathworld.wolfram.com/EllipticHelicoid.html
+- https://mathworld.wolfram.com/Helicoid.html

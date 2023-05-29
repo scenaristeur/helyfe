@@ -5,6 +5,7 @@ global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 
 const canvasSketch = require("canvas-sketch");
+const { MeshPhysicalMaterial } = require("three");
 
 const settings = {
   // Make the loop animated
@@ -24,7 +25,7 @@ const sketch = ({ context }) => {
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
-  camera.position.set(0, 0, -4);
+  camera.position.set(0, 0, 4);
   camera.lookAt(new THREE.Vector3());
 
   // Setup camera controller
@@ -37,14 +38,38 @@ const sketch = ({ context }) => {
   const geometry = new THREE.SphereGeometry(1, 32, 16);
 
   // Setup a material
-  const material = new THREE.MeshBasicMaterial({
+  const materialWireRed = new THREE.MeshBasicMaterial({
     color: "red",
     wireframe: true
   });
 
+let material = new MeshPhysicalMaterial({
+  color: 0xcc0000,
+  emissive: 0x26a269,
+  roughness: 0,
+  metalness: 0.5,
+  reflectivity: 1,
+  clearcoat: 0,
+  clearcoatRoughness: 0.4,
+  flatShading: true,
+  fog: true
+})
+
+
+
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
+
+  scene.add(new THREE.AmbientLight(0xcccccc))
+
+  let light =  new THREE.DirectionalLight(0xffffff,1.)
+  light.position.x = 1
+  light.position.x = 0
+  light.position.x = 1
+
+  scene.add(light)
+
 
   // draw each frame
   return {

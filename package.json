@@ -1,0 +1,16 @@
+{
+  "name": "helyfe",
+  "version": "1.0.0",
+  "description": "- show linked data stored on a pod in an infinite spiral / helix - first idea here https://github.com/vasturiano/3d-force-graph/issues/541 - threejs helicoid https://www.youtube.com/watch?v=tf1Ki3UXjrE&t=2019s",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "^0.7.7",
+    "three": "^0.147.0"
+  }
+}

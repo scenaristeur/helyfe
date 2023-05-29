@@ -3,6 +3,7 @@ global.THREE = require("three");
 
 // Include any additional ThreeJS examples below
 require("three/examples/js/controls/OrbitControls");
+require('three/examples/js/geometries/ParametricGeometry.js');
 
 const canvasSketch = require("canvas-sketch");
 const { MeshPhysicalMaterial } = require("three");
@@ -11,13 +12,13 @@ const settings = {
   // Make the loop animated
   animate: true,
   // Get a WebGL canvas rather than 2D
-  context: "webgl"
+  context: "webgl",
 };
 
 const sketch = ({ context }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -35,41 +36,48 @@ const sketch = ({ context }) => {
   const scene = new THREE.Scene();
 
   // Setup a geometry
-  const geometry = new THREE.SphereGeometry(1, 32, 16);
+  // const geometry = new THREE.IcosahedronBufferGeometry(1, 1); // radius , detail 1,5 1,32
+
+  function Helicoid(u, v, target) {
+    let x = u;
+    let y = 0;
+    let z = v;
+    target.set(x, y, z);
+  }
+
+  let geometry = new THREE.ParametricGeometry(Helicoid, 25, 25); // function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
 
   // Setup a material
   const materialWireRed = new THREE.MeshBasicMaterial({
     color: "red",
-    wireframe: true
+    wireframe: true,
   });
 
-let material = new MeshPhysicalMaterial({
-  color: 0xcc0000,
-  emissive: 0x26a269,
-  roughness: 0,
-  metalness: 0.5,
-  reflectivity: 1,
-  clearcoat: 0,
-  clearcoatRoughness: 0.4,
-  flatShading: true,
-  fog: true
-})
-
-
+  let material = new MeshPhysicalMaterial({
+    color: 0xcc0000,
+    emissive: 0x26a269,
+    roughness: 0,
+    metalness: 0.5,
+    reflectivity: 1,
+    clearcoat: 0,
+    clearcoatRoughness: 0.4,
+    flatShading: true,
+    //fog: true,
+    //wireframe: true
+  });
 
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  scene.add(new THREE.AmbientLight(0xcccccc))
+  scene.add(new THREE.AmbientLight(0xcccccc));
 
-  let light =  new THREE.DirectionalLight(0xffffff,1.)
-  light.position.x = 1
-  light.position.x = 0
-  light.position.x = 1
+  let light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.x = 1;
+  light.position.x = 0;
+  light.position.x = 1;
 
-  scene.add(light)
-
+  scene.add(light);
 
   // draw each frame
   return {
@@ -89,7 +97,7 @@ let material = new MeshPhysicalMaterial({
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

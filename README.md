@@ -17,8 +17,11 @@ node sketch.js
 
 ```
 
-# material tools MeshPhysicalMaterial
+# material : MeshPhysicalMaterial
 - https://threejs.org/docs/#api/en/materials/MeshPhysicalMaterial
+
+# geometry : Parametric Geometry 
+- https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
 
 
 

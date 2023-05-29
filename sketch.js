@@ -15,7 +15,7 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
-  duration: 10 /// 5, //60, for rotation
+  duration: 10, /// 5, //60, for rotation
 };
 
 const sketch = ({ context }) => {
@@ -68,6 +68,7 @@ const sketch = ({ context }) => {
     let x = (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
     let z = (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
     let y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
+    //console.log(x,y,z)
 
     // selon video à 24 mins // pyramide
     // let x = Math.sinh(alpha) * Math.cos(params.torsion * theta)/bottom
@@ -82,7 +83,7 @@ const sketch = ({ context }) => {
     target.set(x, y, z);
   }
 
-  let geometry = new THREE.ParametricGeometry(Helicoid, 120, 100); // cake : sphere avec 5,5 ! function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
+  let geometry = new THREE.ParametricGeometry(Helicoid, 360, 254); // cake : sphere avec 5,5 ! function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
 
   // Setup a material
   // const materialWireRed = new THREE.MeshBasicMaterial({
@@ -92,9 +93,9 @@ const sketch = ({ context }) => {
 
   function getMaterial() {
     let material = new MeshPhysicalMaterial({
-      // color: 0xcc0000,
-      // emissive: 0x26a269,
-      color: 0xffff00,
+      color: 0xcc0000,
+      emissive: 0x26a269,
+      // color: 0xffff00,
       roughness: 0,
       metalness: 0.5,
       reflectivity: 0.5,
@@ -133,6 +134,13 @@ const sketch = ({ context }) => {
   light.position.x = 1;
   light.position.x = 0;
   light.position.x = 1;
+  light.castShadow = true;
+  light.shadow.mapSize.width = 2048;
+  light.shadow.mapSize.height = 2048;
+  light.shadow.camera.right = 2;
+  light.shadow.camera.left = -2;
+  light.shadow.camera.top = 2;
+  light.shadow.camera.bottom = -2;
 
   scene.add(light);
 
@@ -162,7 +170,7 @@ const sketch = ({ context }) => {
     reflectivity: 0.5,
     clearcoat: 1,
     clearcoatRoughness: 0.4,
-    // flatShading: true,
+    flatShading: true,
     side: THREE.DoubleSide,
     //fog: true,
     //wireframe: true
@@ -171,7 +179,7 @@ const sketch = ({ context }) => {
   let ball_now = new THREE.Mesh(ball_now_geom, ball_now_material);
   scene.add(ball_now);
 
-  let ball_geom = new THREE.IcosahedronBufferGeometry(0.18, 5);
+  let ball_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
   let ball1 = new THREE.Mesh(ball_geom, ball_event_material);
   let ball2 = new THREE.Mesh(ball_geom, ball_event_material);
 
@@ -231,11 +239,11 @@ const sketch = ({ context }) => {
       if (ball1 && ball2) {
         let theta1 = playhead * 2 * Math.PI;
         let theta2 = playhead * 2 * Math.PI + Math.PI;
-        ball1.position.x = 0.5*Math.sin(theta1);
-        ball1.position.z = 0.5*Math.cos(theta1);
+        ball1.position.x = .5 * Math.sin(theta1);
+        ball1.position.z = 5 * Math.cos(theta1);
 
-        ball2.position.x = 0.5*Math.sin(theta2);
-        ball2.position.z = 0.5*Math.cos(theta2);
+        ball2.position.x = 0.5 * Math.sin(theta2);
+        ball2.position.z = 0.5 * Math.cos(theta2);
       }
 
       helicoidMesh.rotation.y = playhead * Math.PI * 2;

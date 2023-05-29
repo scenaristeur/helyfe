@@ -17,7 +17,7 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
-  duration: 10, /// 5, //60, for rotation
+  duration: 60, /// 5, //60, for rotation
 };
 
 let eventBalls = [];
@@ -45,11 +45,11 @@ const sketch = ({ context }) => {
   const scene = new THREE.Scene();
 
   // Setup a geometry
-  // const geometry = new THREE.IcosahedronBufferGeometry(1, 1); // radius , detail 1,5 1,32
+  // const geometry = new THREE.IcosahedronGeometry(1, 1); // radius , detail 1,5 1,32
 
   function Helicoid(u, v, target) {
     let alpha = Math.PI * 2 * (u - 0.5); // transformer u en (u-0.5) double
-    let theta = Math.PI * 2 * (v - 0.205); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
+    let theta = Math.PI * 2 * (v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
 
     // sphere
     // let x = Math.sin(alpha)*Math.cos(theta)
@@ -152,7 +152,7 @@ const sketch = ({ context }) => {
   //////////////BALL EVENT
 
   createBallEvent = function () {
-    let created = Date.now()
+    let created = Date.now();
     let ball_event_material = new MeshPhysicalMaterial({
       //color: 0xcc0000,
       emissive: 0x26a269,
@@ -167,15 +167,15 @@ const sketch = ({ context }) => {
       //fog: true,
       //wireframe: true
     });
-    let ball_event_geom = new THREE.IcosahedronBufferGeometry(0.2, 5);
+    let ball_event_geom = new THREE.IcosahedronGeometry(0.2, 5);
     let ball_event = new THREE.Mesh(ball_event_geom, ball_event_material);
-    ball_event.userData.created = created
+    ball_event.userData.created = created;
     ball_event.position.x = 2;
 
     return ball_event;
   };
 
-  let ball_now_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
+  let ball_now_geom = new THREE.IcosahedronGeometry(0.1, 5);
 
   let ball_now_material = new MeshPhysicalMaterial({
     // color: 0xcc0000,
@@ -210,7 +210,7 @@ const sketch = ({ context }) => {
   let ball_now = new THREE.Mesh(ball_now_geom, ball_now_material);
   scene.add(ball_now);
 
-  let ball_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
+  let ball_geom = new THREE.IcosahedronGeometry(0.1, 5);
   let ball1 = new THREE.Mesh(ball_geom, ball_balance_material);
   //let ball2 = new THREE.Mesh(ball_geom, ball_event_material);
 
@@ -289,12 +289,32 @@ const sketch = ({ context }) => {
         //console.log(b_e)
         // https://stackoverflow.com/questions/53108802/generate-a-random-number-in-interval-0-360-which-is-divisible-by-number-15
 
-        let theta2 = playhead * 2 * Math.PI - b_e.userData.created/360;
-        let passed = (Date.now() - b_e.userData.created) / 1000 /settings.duration
-       // console.log(passed)
-        b_e.position.x = 0.5 * Math.sin(theta2);
-        b_e.position.z = 0.5 * Math.cos(theta2);
-        b_e.position.y = - passed // 0.5 * Math.cos(theta2);
+        //let theta2 = playhead * 2 * Math.PI - b_e.userData.created/360;
+        let passed =
+          (Date.now() - b_e.userData.created) / 1000 / settings.duration;
+        // console.log(passed)
+        // b_e.position.x = 0.5 * Math.sin(theta2);
+        // b_e.position.z = 0.5 * Math.cos(theta2);
+        // b_e.position.y = - passed // 0.5 * Math.cos(theta2);
+
+        // test avec playhead et passed
+        let u = passed;
+        let v = playhead;
+        let alpha = Math.PI * 2 * u; //(u - 0.5); // transformer u en (u-0.5) double
+        let theta = Math.PI * 2 * v //(v-0.5); // distance du centre //(v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
+
+        let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
+        // selon wolfram // hyperbole
+        b_e.position.x =
+          (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
+        b_e.position.z =
+          (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
+        b_e.position.y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
+
+        console.log(b_e.position.y);
+        if (b_e.position.y > 0.9999) {
+          console.log("bip");
+        }
       });
 
       helicoidMesh.rotation.y = playhead * Math.PI * 2;

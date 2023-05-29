@@ -15,6 +15,7 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
+  duration: 60/5, //60, for rotation
 };
 
 const sketch = ({ context }) => {
@@ -43,8 +44,8 @@ const sketch = ({ context }) => {
   // const geometry = new THREE.IcosahedronBufferGeometry(1, 1); // radius , detail 1,5 1,32
 
   function Helicoid(u, v, target) {
-    let alpha = Math.PI * 2* (u - 0.5); // transformer u en (u-0.5) double
-    let theta = Math.PI * 2 *(v - 0.205); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
+    let alpha = Math.PI * 2 * (u - 0.5); // transformer u en (u-0.5) double
+    let theta = Math.PI * 2 * (v - 0.205); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
 
     // sphere
     // let x = Math.sin(alpha)*Math.cos(theta)
@@ -89,19 +90,30 @@ const sketch = ({ context }) => {
   //   wireframe: true,
   // });
 
-  let material = new MeshPhysicalMaterial({
-    color: 0xcc0000,
-    emissive: 0x26a269,
-    roughness: 0,
-    metalness: 0.5,
-    reflectivity: 0.5,
-    clearcoat: 1,
-    clearcoatRoughness: 0.4,
-    flatShading: true,
-    side: THREE.DoubleSide,
-    //fog: true,
-    //wireframe: true
-  });
+  function getMaterial() {
+    let material = new MeshPhysicalMaterial({
+      color: 0xcc0000,
+      emissive: 0x26a269,
+      roughness: 0,
+      metalness: 0.5,
+      reflectivity: 0.5,
+      clearcoat: 1,
+      clearcoatRoughness: 0.4,
+      flatShading: true,
+      side: THREE.DoubleSide,
+      //fog: true,
+      //wireframe: true
+    });
+
+    material.onBeforeComplete = function (shader) {
+      console.log(shader, "hello");
+      shader.uniforms.playhead = {value: 0}
+    };
+
+    return material;
+  }
+
+  let material = getMaterial();
 
   // Setup a mesh with geometry + material
   const helicoidMesh = new THREE.Mesh(geometry, material);
@@ -165,7 +177,8 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ time }) {
+    render({ time, playhead }) {
+      helicoidMesh.rotation.y = playhead*Math.PI*2
       controls.update();
       renderer.render(scene, camera);
     },

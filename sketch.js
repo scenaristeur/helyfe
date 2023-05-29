@@ -141,10 +141,12 @@ const sketch = ({ context }) => {
   light.shadow.camera.left = -2;
   light.shadow.camera.top = 2;
   light.shadow.camera.bottom = -2;
+  //light.shadow.bias = 0.00001
 
   scene.add(light);
 
   let ball_now_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
+  let ball_event_geom = new THREE.IcosahedronBufferGeometry(0.2, 5);
 
   let ball_now_material = new MeshPhysicalMaterial({
     // color: 0xcc0000,
@@ -156,6 +158,21 @@ const sketch = ({ context }) => {
     clearcoat: 1,
     clearcoatRoughness: 0.4,
     // flatShading: true,
+    side: THREE.DoubleSide,
+    //fog: true,
+    //wireframe: true
+  });
+
+  let ball_balance_material = new MeshPhysicalMaterial({
+    //color: 0xcc0000,
+    emissive: 0x26a269,
+    color: 0x00ff00,
+    roughness: 0,
+    metalness: 0.5,
+    reflectivity: 0.5,
+    clearcoat: 1,
+    clearcoatRoughness: 0.4,
+    flatShading: true,
     side: THREE.DoubleSide,
     //fog: true,
     //wireframe: true
@@ -180,7 +197,7 @@ const sketch = ({ context }) => {
   scene.add(ball_now);
 
   let ball_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
-  let ball1 = new THREE.Mesh(ball_geom, ball_event_material);
+  let ball1 = new THREE.Mesh(ball_geom, ball_balance_material);
   let ball2 = new THREE.Mesh(ball_geom, ball_event_material);
 
   scene.add(ball1);
@@ -221,6 +238,22 @@ const sketch = ({ context }) => {
 
   const todoFolder = helicoidFolder.addFolder("todo");
   todoFolder.add(params, "torsion", 0, 5).name("torsion(todo)");
+
+  var obj = {
+    add: function () {
+      console.log("clicked");
+      let ball_event = new THREE.Mesh(ball_event_geom, ball_event_material);
+      scene.add(ball_event);
+      ball_event.position.x = 2
+
+
+
+
+
+    },
+  };
+
+  gui.add(obj, "add").name("Add an event");
   // const cameraFolder = gui.addFolder('Camera')
   // cameraFolder.add(camera.position, 'z', 0, 10)
   // cameraFolder.open()
@@ -239,7 +272,7 @@ const sketch = ({ context }) => {
       if (ball1 && ball2) {
         let theta1 = playhead * 2 * Math.PI;
         let theta2 = playhead * 2 * Math.PI + Math.PI;
-        ball1.position.x = .5 * Math.sin(theta1);
+        ball1.position.x = 0.5 * Math.sin(theta1);
         ball1.position.z = 5 * Math.cos(theta1);
 
         ball2.position.x = 0.5 * Math.sin(theta2);

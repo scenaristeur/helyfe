@@ -15,7 +15,7 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
-  duration: 60/5, //60, for rotation
+  duration: 10 /// 5, //60, for rotation
 };
 
 const sketch = ({ context }) => {
@@ -82,7 +82,7 @@ const sketch = ({ context }) => {
     target.set(x, y, z);
   }
 
-  let geometry = new THREE.ParametricGeometry(Helicoid, 100, 100); // cake : sphere avec 5,5 ! function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
+  let geometry = new THREE.ParametricGeometry(Helicoid, 120, 100); // cake : sphere avec 5,5 ! function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
 
   // Setup a material
   // const materialWireRed = new THREE.MeshBasicMaterial({
@@ -92,14 +92,15 @@ const sketch = ({ context }) => {
 
   function getMaterial() {
     let material = new MeshPhysicalMaterial({
-      color: 0xcc0000,
-      emissive: 0x26a269,
+      // color: 0xcc0000,
+      // emissive: 0x26a269,
+      color: 0xffff00,
       roughness: 0,
       metalness: 0.5,
       reflectivity: 0.5,
       clearcoat: 1,
       clearcoatRoughness: 0.4,
-      flatShading: true,
+      // flatShading: true,
       side: THREE.DoubleSide,
       //fog: true,
       //wireframe: true
@@ -107,7 +108,14 @@ const sketch = ({ context }) => {
 
     material.onBeforeComplete = function (shader) {
       console.log(shader, "hello");
-      shader.uniforms.playhead = {value: 0}
+      shader.uniforms.playhead = { value: 0 };
+      // minute 36 dans video ? necessaire ?
+      // shader.fragmentShader = shader.fragmentShader.replace(
+      //   "#include <logdepthbuf_fragment>",
+      //   `
+      //   diffuseColor.rgb = vec3(1.,0.,0.)
+      //   ` + "#include <logdepthbuf_fragment>"
+      // );
     };
 
     return material;
@@ -127,6 +135,48 @@ const sketch = ({ context }) => {
   light.position.x = 1;
 
   scene.add(light);
+
+  let ball_now_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
+
+  let ball_now_material = new MeshPhysicalMaterial({
+    // color: 0xcc0000,
+    // emissive: 0x26a269,
+    color: 0xff0000,
+    roughness: 0,
+    metalness: 0.5,
+    reflectivity: 0.5,
+    clearcoat: 1,
+    clearcoatRoughness: 0.4,
+    // flatShading: true,
+    side: THREE.DoubleSide,
+    //fog: true,
+    //wireframe: true
+  });
+
+  let ball_event_material = new MeshPhysicalMaterial({
+    //color: 0xcc0000,
+    emissive: 0x26a269,
+    color: 0x0000ff,
+    roughness: 0,
+    metalness: 0.5,
+    reflectivity: 0.5,
+    clearcoat: 1,
+    clearcoatRoughness: 0.4,
+    // flatShading: true,
+    side: THREE.DoubleSide,
+    //fog: true,
+    //wireframe: true
+  });
+
+  let ball_now = new THREE.Mesh(ball_now_geom, ball_now_material);
+  scene.add(ball_now);
+
+  let ball_geom = new THREE.IcosahedronBufferGeometry(0.18, 5);
+  let ball1 = new THREE.Mesh(ball_geom, ball_event_material);
+  let ball2 = new THREE.Mesh(ball_geom, ball_event_material);
+
+  scene.add(ball1);
+  scene.add(ball2);
 
   const materialParams = {
     helicoidMeshColor: helicoidMesh.material.color.getHex(),
@@ -178,7 +228,18 @@ const sketch = ({ context }) => {
     },
     // Update & render your scene here
     render({ time, playhead }) {
-      helicoidMesh.rotation.y = playhead*Math.PI*2
+      if (ball1 && ball2) {
+        let theta1 = playhead * 2 * Math.PI;
+        let theta2 = playhead * 2 * Math.PI + Math.PI;
+        ball1.position.x = 0.5*Math.sin(theta1);
+        ball1.position.z = 0.5*Math.cos(theta1);
+
+        ball2.position.x = 0.5*Math.sin(theta2);
+        ball2.position.z = 0.5*Math.cos(theta2);
+      }
+
+      helicoidMesh.rotation.y = playhead * Math.PI * 2;
+
       controls.update();
       renderer.render(scene, camera);
     },

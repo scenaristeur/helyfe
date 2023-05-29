@@ -151,8 +151,8 @@ const sketch = ({ context }) => {
 
   //////////////BALL EVENT
 
-  createBallEvent = function () {
-    let created = Date.now();
+  createBallEvent = function (decalage = 0) {
+    let created = Date.now()+decalage
     let ball_event_material = new MeshPhysicalMaterial({
       //color: 0xcc0000,
       emissive: 0x26a269,
@@ -262,7 +262,18 @@ const sketch = ({ context }) => {
     },
   };
 
-  gui.add(obj, "add").name("Add an event");
+  var objFutur = {
+    add: function () {
+      console.log("clicked");
+      let ball_event = createBallEvent(10000);
+      scene.add(ball_event);
+      eventBalls.push(ball_event);
+    },
+  };
+
+  gui.add(obj, "add").name("Add an event now");
+
+  gui.add(objFutur, "add").name("Add an event in 10 s futur");
   // const cameraFolder = gui.addFolder('Camera')
   // cameraFolder.add(camera.position, 'z', 0, 10)
   // cameraFolder.open()
@@ -301,7 +312,7 @@ const sketch = ({ context }) => {
         let u = passed;
         let v = playhead;
         let alpha = Math.PI * 2 * u; //(u - 0.5); // transformer u en (u-0.5) double
-        let theta = Math.PI * 2 * v //(v-0.5); // distance du centre //(v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
+        let theta = Math.PI * 2 * (v + 0.5); // distance du centre //(v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
 
         let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
         // selon wolfram // hyperbole
@@ -311,10 +322,15 @@ const sketch = ({ context }) => {
           (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
         b_e.position.y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
 
-        console.log(b_e.position.y);
-        if (b_e.position.y > 0.9999) {
-          console.log("bip");
-        }
+
+        // without scale, balls follow the helicoid but not with scale
+        let scale = (1 - Math.abs(b_e.position.y))+.01;
+        b_e.scale.set(scale, scale, scale);
+
+        //console.log(b_e.position.y);
+        // if (b_e.position.y > 0.9999) {
+        //   console.log("bip");
+        // }
       });
 
       helicoidMesh.rotation.y = playhead * Math.PI * 2;

@@ -289,9 +289,12 @@ const sketch = ({ context }) => {
         //console.log(b_e)
         // https://stackoverflow.com/questions/53108802/generate-a-random-number-in-interval-0-360-which-is-divisible-by-number-15
 
-        let theta2 = playhead * 2 * Math.PI + b_e.userData.created;
+        let theta2 = playhead * 2 * Math.PI - b_e.userData.created/360;
+        let passed = (Date.now() - b_e.userData.created) / 1000 /settings.duration
+       // console.log(passed)
         b_e.position.x = 0.5 * Math.sin(theta2);
         b_e.position.z = 0.5 * Math.cos(theta2);
+        b_e.position.y = - passed // 0.5 * Math.cos(theta2);
       });
 
       helicoidMesh.rotation.y = playhead * Math.PI * 2;

@@ -7,6 +7,8 @@ require("three/examples/js/geometries/ParametricGeometry.js");
 
 const dat = require("dat.gui");
 
+//require("./src/event_ball.js");
+
 const canvasSketch = require("canvas-sketch");
 const { MeshPhysicalMaterial } = require("three");
 
@@ -15,8 +17,10 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
-  duration: 10, /// 5, //60, for rotation
+  duration: 60, /// 5, //60, for rotation
 };
+
+let eventBalls = [];
 
 const sketch = ({ context }) => {
   // Create a renderer
@@ -66,7 +70,7 @@ const sketch = ({ context }) => {
     let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
     // selon wolfram // hyperbole
     let x = (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
-    let z = (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
+    let z = (Math.sinh(theta) * 2*Math.sin(params.torsion * alpha)) / bottom;
     let y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
     //console.log(x,y,z)
 
@@ -145,8 +149,33 @@ const sketch = ({ context }) => {
 
   scene.add(light);
 
+  //////////////BALL EVENT
+
+  createBallEvent = function () {
+    let created = Date.now()
+    let ball_event_material = new MeshPhysicalMaterial({
+      //color: 0xcc0000,
+      emissive: 0x26a269,
+      color: 0x0000ff,
+      roughness: 0,
+      metalness: 0.5,
+      reflectivity: 0.5,
+      clearcoat: 1,
+      clearcoatRoughness: 0.4,
+      flatShading: true,
+      side: THREE.DoubleSide,
+      //fog: true,
+      //wireframe: true
+    });
+    let ball_event_geom = new THREE.IcosahedronBufferGeometry(0.2, 5);
+    let ball_event = new THREE.Mesh(ball_event_geom, ball_event_material);
+    ball_event.userData.created = created
+    ball_event.position.x = 2;
+
+    return ball_event;
+  };
+
   let ball_now_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
-  let ball_event_geom = new THREE.IcosahedronBufferGeometry(0.2, 5);
 
   let ball_now_material = new MeshPhysicalMaterial({
     // color: 0xcc0000,
@@ -178,30 +207,15 @@ const sketch = ({ context }) => {
     //wireframe: true
   });
 
-  let ball_event_material = new MeshPhysicalMaterial({
-    //color: 0xcc0000,
-    emissive: 0x26a269,
-    color: 0x0000ff,
-    roughness: 0,
-    metalness: 0.5,
-    reflectivity: 0.5,
-    clearcoat: 1,
-    clearcoatRoughness: 0.4,
-    flatShading: true,
-    side: THREE.DoubleSide,
-    //fog: true,
-    //wireframe: true
-  });
-
   let ball_now = new THREE.Mesh(ball_now_geom, ball_now_material);
   scene.add(ball_now);
 
   let ball_geom = new THREE.IcosahedronBufferGeometry(0.1, 5);
   let ball1 = new THREE.Mesh(ball_geom, ball_balance_material);
-  let ball2 = new THREE.Mesh(ball_geom, ball_event_material);
+  //let ball2 = new THREE.Mesh(ball_geom, ball_event_material);
 
   scene.add(ball1);
-  scene.add(ball2);
+  //scene.add(ball2);
 
   const materialParams = {
     helicoidMeshColor: helicoidMesh.material.color.getHex(),
@@ -242,14 +256,9 @@ const sketch = ({ context }) => {
   var obj = {
     add: function () {
       console.log("clicked");
-      let ball_event = new THREE.Mesh(ball_event_geom, ball_event_material);
+      let ball_event = createBallEvent();
       scene.add(ball_event);
-      ball_event.position.x = 2
-
-
-
-
-
+      eventBalls.push(ball_event);
     },
   };
 
@@ -269,15 +278,21 @@ const sketch = ({ context }) => {
     },
     // Update & render your scene here
     render({ time, playhead }) {
-      if (ball1 && ball2) {
+      if (ball1) {
         let theta1 = playhead * 2 * Math.PI;
-        let theta2 = playhead * 2 * Math.PI + Math.PI;
-        ball1.position.x = 0.5 * Math.sin(theta1);
-        ball1.position.z = 5 * Math.cos(theta1);
 
-        ball2.position.x = 0.5 * Math.sin(theta2);
-        ball2.position.z = 0.5 * Math.cos(theta2);
+        ball1.position.x = 1 * Math.sin(theta1);
+        ball1.position.z = 2 * Math.cos(theta1);
       }
+
+      eventBalls.forEach(function (b_e) {
+        //console.log(b_e)
+        // https://stackoverflow.com/questions/53108802/generate-a-random-number-in-interval-0-360-which-is-divisible-by-number-15
+
+        let theta2 = playhead * 2 * Math.PI + b_e.userData.created;
+        b_e.position.x = 0.5 * Math.sin(theta2);
+        b_e.position.z = 0.5 * Math.cos(theta2);
+      });
 
       helicoidMesh.rotation.y = playhead * Math.PI * 2;
 

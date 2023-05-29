@@ -62,6 +62,7 @@ const sketch = ({ context }) => {
     clearcoat: 0,
     clearcoatRoughness: 0.4,
     flatShading: true,
+    side: THREE.DoubleSide
     //fog: true,
     //wireframe: true
   });

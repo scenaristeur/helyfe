@@ -152,11 +152,11 @@ const sketch = ({ context }) => {
   //////////////BALL EVENT
 
   createBallEvent = function (decalage = 0) {
-    let created = Date.now()+decalage
+    let created = Date.now() + decalage;
     let ball_event_material = new MeshPhysicalMaterial({
       //color: 0xcc0000,
       emissive: 0x26a269,
-      color: 0x0000ff,
+      color: decalage > 0 ? 0x00ff00 : 0x0000ff,
       roughness: 0,
       metalness: 0.5,
       reflectivity: 0.5,
@@ -265,7 +265,7 @@ const sketch = ({ context }) => {
   var objFutur = {
     add: function () {
       console.log("clicked");
-      let ball_event = createBallEvent(10000);
+      let ball_event = createBallEvent(20000);
       scene.add(ball_event);
       eventBalls.push(ball_event);
     },
@@ -273,7 +273,7 @@ const sketch = ({ context }) => {
 
   gui.add(obj, "add").name("Add an event now");
 
-  gui.add(objFutur, "add").name("Add an event in 10 s futur");
+  gui.add(objFutur, "add").name("Add an event in 20 s futur");
   // const cameraFolder = gui.addFolder('Camera')
   // cameraFolder.add(camera.position, 'z', 0, 10)
   // cameraFolder.open()
@@ -301,16 +301,24 @@ const sketch = ({ context }) => {
         // https://stackoverflow.com/questions/53108802/generate-a-random-number-in-interval-0-360-which-is-divisible-by-number-15
 
         //let theta2 = playhead * 2 * Math.PI - b_e.userData.created/360;
-        let passed =
-          (Date.now() - b_e.userData.created) / 1000 / settings.duration;
+        let passed = Date.now() - b_e.userData.created;
         // console.log(passed)
         // b_e.position.x = 0.5 * Math.sin(theta2);
         // b_e.position.z = 0.5 * Math.cos(theta2);
         // b_e.position.y = - passed // 0.5 * Math.cos(theta2);
 
         // test avec playhead et passed
-        let u = passed;
+        //let step = Math.abs(passed) > 10 ? playhead/10 : playhead
+        //let factor = Math.abs(passed) > 10 ? 5 : 1
+
+        // console.log(passed, playhead);
+        //let u = passed / settings.duration /100* (1/ Math.log(passed))
+        // let step = parseInt(passed / 60)
+
+        let u = passed / settings.duration / 1000;
         let v = playhead;
+        //console.log(u, v);
+
         let alpha = Math.PI * 2 * u; //(u - 0.5); // transformer u en (u-0.5) double
         let theta = Math.PI * 2 * (v + 0.5); // distance du centre //(v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
 
@@ -322,9 +330,8 @@ const sketch = ({ context }) => {
           (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
         b_e.position.y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
 
-
         // without scale, balls follow the helicoid but not with scale
-        let scale = (1 - Math.abs(b_e.position.y))+.01;
+        let scale = 1 - Math.abs(b_e.position.y) + 0.01;
         b_e.scale.set(scale, scale, scale);
 
         //console.log(b_e.position.y);

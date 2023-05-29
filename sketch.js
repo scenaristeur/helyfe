@@ -39,13 +39,18 @@ const sketch = ({ context }) => {
   // const geometry = new THREE.IcosahedronBufferGeometry(1, 1); // radius , detail 1,5 1,32
 
   function Helicoid(u, v, target) {
-    let x = u;
-    let y = 0;
-    let z = v;
+    let alpha = Math.PI*2*u
+    let theta = Math.PI*2*v
+    // sphere 
+    let x = Math.sin(alpha)*Math.cos(theta)
+    let y = Math.sin(alpha)*Math.sin(theta)
+    let z = Math.cos(alpha)
+
+
     target.set(x, y, z);
   }
 
-  let geometry = new THREE.ParametricGeometry(Helicoid, 25, 25); // function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
+  let geometry = new THREE.ParametricGeometry(Helicoid, 25, 25); // cake : sphere avec 5,5 ! function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
 
   // Setup a material
   const materialWireRed = new THREE.MeshBasicMaterial({

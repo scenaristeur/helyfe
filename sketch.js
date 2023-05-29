@@ -43,8 +43,8 @@ const sketch = ({ context }) => {
   // const geometry = new THREE.IcosahedronBufferGeometry(1, 1); // radius , detail 1,5 1,32
 
   function Helicoid(u, v, target) {
-    let alpha = Math.PI * 2 * u;
-    let theta = Math.PI * 2 * v;
+    let alpha = Math.PI * 2* (u - 0.5); // transformer u en (u-0.5) double
+    let theta = Math.PI * 2 * v; //(v - 0.5); //
 
     // sphere
     // let x = Math.sin(alpha)*Math.cos(theta)
@@ -63,20 +63,25 @@ const sketch = ({ context }) => {
 
     // hyperbola
     let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
-    // selon wolfram
+    // selon wolfram // hyperbole
     let x = (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
     let y = (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
     let z = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
 
-    // selon video à 24 mins
-    // let x = Math.sinh(alpha) * Math.cos(t * theta)/bottom
-    // let y = Math.sinh(alpha) * Math.sin(t * theta)/bottom
+    // selon video à 24 mins // pyramide
+    // let x = Math.sinh(alpha) * Math.cos(params.torsion * theta)/bottom
+    // let y = Math.sinh(alpha) * Math.sin(params.torsion * theta)/bottom
     // let z = Math.sinh(alpha) * Math.cosh(theta)/bottom
+
+    // selon video à 27 mins // pyramide
+    // let x = (Math.sinh(alpha) * Math.cos(params.torsion * theta)) / bottom;
+    // let y = (Math.sinh(alpha) * Math.sin(params.torsion * theta)) / bottom;
+    // let z = (2 * Math.cosh(theta) * Math.sinh(alpha)) / bottom;
 
     target.set(x, y, z);
   }
 
-  let geometry = new THREE.ParametricGeometry(Helicoid, 25, 25); // cake : sphere avec 5,5 ! function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
+  let geometry = new THREE.ParametricGeometry(Helicoid, 100, 100); // cake : sphere avec 5,5 ! function , slices, stacks, https://threejs.org/docs/#examples/en/geometries/ParametricGeometry
 
   // Setup a material
   // const materialWireRed = new THREE.MeshBasicMaterial({
@@ -89,7 +94,7 @@ const sketch = ({ context }) => {
     emissive: 0x26a269,
     roughness: 0,
     metalness: 0.5,
-    reflectivity: 1,
+    reflectivity: 0.5,
     clearcoat: 0,
     clearcoatRoughness: 0.4,
     flatShading: true,

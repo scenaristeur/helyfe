@@ -213,7 +213,10 @@ const sketch = ({ context }) => {
   let ball_geom = new THREE.IcosahedronGeometry(0.1, 5);
   let ball1 = new THREE.Mesh(ball_geom, ball_balance_material);
   //let ball2 = new THREE.Mesh(ball_geom, ball_event_material);
-
+  ball1.scale.x = 0.1;
+  ball1.scale.y = 0.1;
+  ball1.scale.z = 0.1;
+  //, y: 0.5, z: 0.5 });
   scene.add(ball1);
   //scene.add(ball2);
 
@@ -278,6 +281,24 @@ const sketch = ({ context }) => {
   // cameraFolder.add(camera.position, 'z', 0, 10)
   // cameraFolder.open()
 
+  function getBallSpeed(passed) {
+    let speed = 1;
+    if (passed > 2) {
+      speed *= 2;
+    }
+    if (passed > 4) {
+      speed *= 2;
+    }
+    if (passed > 6) {
+      speed *= 2;
+    }
+    if (passed > 8) {
+      speed *= 2;
+    }
+
+    return speed;
+  }
+
   // draw each frame
   return {
     // Handle resize events here
@@ -290,7 +311,7 @@ const sketch = ({ context }) => {
     // Update & render your scene here
     render({ time, playhead }) {
       if (ball1) {
-        let theta1 = playhead * 2 * Math.PI;
+        let theta1 = playhead * settings.duration * Math.PI;
 
         ball1.position.x = 1 * Math.sin(theta1);
         ball1.position.z = 2 * Math.cos(theta1);
@@ -314,21 +335,26 @@ const sketch = ({ context }) => {
         // console.log(passed, playhead);
         //let u = passed / settings.duration /100* (1/ Math.log(passed))
         // let step = parseInt(passed / 60)
+        let passed_normalized = passed / 1000;
+        let speed = getBallSpeed(passed_normalized);
+        //console.log("speed", speed, passed_normalized);
 
-        let u = passed / settings.duration / 1000;
-        let v = playhead;
-        //console.log(u, v);
+        // test pour ralentir
+       // let u = passed / (settings.duration-100*speed) / 1000
+        let u = passed / settings.duration / 1000 / 10
+        let v = playhead
+        console.log(u, v);
 
-        let alpha = Math.PI * 2 * u; //(u - 0.5); // transformer u en (u-0.5) double
+        let alpha = Math.PI * 2 * (u); //(u - 0.5); // transformer u en (u-0.5) double
         let theta = Math.PI * 2 * (v + 0.5); // distance du centre //(v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
 
         let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
         // selon wolfram // hyperbole
         b_e.position.x =
-          (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
+          (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom
         b_e.position.z =
-          (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
-        b_e.position.y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
+          (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom
+        b_e.position.y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom
 
         // without scale, balls follow the helicoid but not with scale
         let scale = 1 - Math.abs(b_e.position.y) + 0.01;

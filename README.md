@@ -11,6 +11,9 @@ npx canvas-sketch-cli sketch.js --new --template=three --open
 ```
 if issue, see ISSUES.md
 
+# Observablehq tests
+- https://observablehq.com/d/b75bc06775254516
+
 # other run
 ```
 node sketch.js

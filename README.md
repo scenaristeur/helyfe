@@ -41,6 +41,10 @@ npx canvas-sketch-cli sketch.js -- open
 - https://hyperradio.radiofrance.com/blog/projets-blog/vous-aussi-participez-a-la-creation-de-la-radio-de-demain-avec-lopen-api-de-radio-france/
 
 
+# google calendar
+- https://developers.google.com/calendar/api/quickstart/js?hl=fr 
+- https://developers.google.com/calendar/api/guides/create-events?hl=fr
+- 
 
 
 

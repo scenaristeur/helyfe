@@ -171,6 +171,7 @@ const sketch = ({ context }) => {
     let ball_event = new THREE.Mesh(ball_event_geom, ball_event_material);
     ball_event.userData.created = created;
     ball_event.position.x = 2;
+    ball_event.label = created
 
     return ball_event;
   };
@@ -268,7 +269,7 @@ const sketch = ({ context }) => {
   var objFutur = {
     add: function () {
       console.log("clicked");
-      let ball_event = createBallEvent(20000);
+      let ball_event = createBallEvent(60*60*24);
       scene.add(ball_event);
       eventBalls.push(ball_event);
     },

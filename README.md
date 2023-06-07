@@ -33,6 +33,9 @@ npm install
 npx canvas-sketch-cli sketch.js -- open
 ```
 
+# angular speed
+- https://lambdageeks.com/angular-speed-vs-angular-velocity/
+- "Event near the now (has just happend or will happen soon) have a 1 degre / seconde, "
 
 # API radio france
 - https://www.radiofrance.com/lopen-api-radio-france

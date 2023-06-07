@@ -4,6 +4,7 @@ global.THREE = require("three");
 // Include any additional ThreeJS examples below
 require("three/examples/js/controls/OrbitControls");
 require("three/examples/js/geometries/ParametricGeometry.js");
+//const  { CSS2DRenderer, CSS2DObject } = require ('three/example/js/renderers/CSS2DRenderer.js');
 
 const dat = require("dat.gui");
 
@@ -28,7 +29,7 @@ const sketch = ({ context }) => {
     canvas: context.canvas,
   });
 
-  let params = { torsion: 5 }; // torsion
+  let params = { torsion: 5, speed: 1 }; // torsion
 
   // WebGL background color
   renderer.setClearColor("#000", 1);
@@ -171,7 +172,7 @@ const sketch = ({ context }) => {
     let ball_event = new THREE.Mesh(ball_event_geom, ball_event_material);
     ball_event.userData.created = created;
     ball_event.position.x = 2;
-    ball_event.label = created
+    ball_event.label = created;
 
     return ball_event;
   };
@@ -269,18 +270,46 @@ const sketch = ({ context }) => {
   var objFutur = {
     add: function () {
       console.log("clicked");
-      let ball_event = createBallEvent(60*60*24);
+      let ball_event = createBallEvent(60 * 60 * 24);
       scene.add(ball_event);
       eventBalls.push(ball_event);
+    },
+    get: function () {
+      console.log("get");
+      let url = "https://spoggy-test2.solidcommunity.net/public/"
+      fetch(url,{
+        method: 'GET',
+        headers: {
+            'Accept': 'application/ld+json',
+        },
+    })
+        .then(function (response) {
+          console.log(response)
+          return response.json();
+        })
+        .then(function (json) {
+          console.log(json['@graph'])
+          let ressources = json['@graph']
+          ressources.forEach(r => {
+            console.log(r)
+            let id = r['@id']
+            let modified = r['dct:modified']['@value']
+            console.log(id, modified)
+          })
+          // const objectURL = URL.createObjectURL(myBlob);
+          // myImage.src = objectURL;
+        });
     },
   };
 
   gui.add(obj, "add").name("Add an event now");
 
   gui.add(objFutur, "add").name("Add an event in 20 s futur");
+  gui.add(objFutur, "get").name("Fetch data");
   // const cameraFolder = gui.addFolder('Camera')
   // cameraFolder.add(camera.position, 'z', 0, 10)
   // cameraFolder.open()
+  gui.add(params, "speed", 1, 60);
 
   function getBallSpeed(passed) {
     let speed = 1;
@@ -341,21 +370,21 @@ const sketch = ({ context }) => {
         //console.log("speed", speed, passed_normalized);
 
         // test pour ralentir
-       // let u = passed / (settings.duration-100*speed) / 1000
-        let u = passed / settings.duration / 1000 / 10
-        let v = playhead
-        console.log(u, v);
+        // let u = passed / (settings.duration-100*speed) / 1000
+        let u = passed / settings.duration / 1000 / params.speed;
+        let v = playhead;
+       // console.log(u, v);
 
-        let alpha = Math.PI * 2 * (u); //(u - 0.5); // transformer u en (u-0.5) double
+        let alpha = Math.PI * 2 * u; //(u - 0.5); // transformer u en (u-0.5) double
         let theta = Math.PI * 2 * (v + 0.5); // distance du centre //(v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
 
         let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
         // selon wolfram // hyperbole
         b_e.position.x =
-          (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom
+          (Math.sinh(theta) * Math.cos(params.torsion * alpha)) / bottom;
         b_e.position.z =
-          (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom
-        b_e.position.y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom
+          (Math.sinh(theta) * Math.sin(params.torsion * alpha)) / bottom;
+        b_e.position.y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
 
         // without scale, balls follow the helicoid but not with scale
         let scale = 1 - Math.abs(b_e.position.y) + 0.01;
@@ -367,7 +396,7 @@ const sketch = ({ context }) => {
         // }
       });
 
-      helicoidMesh.rotation.y = playhead * Math.PI * 2;
+      // helicoidMesh.rotation.y = playhead * Math.PI * 2;
 
       controls.update();
       renderer.render(scene, camera);

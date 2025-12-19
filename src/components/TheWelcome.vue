@@ -37,7 +37,7 @@ export default {
         },
         addPlane() {
             const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1);
-            const planeMaterial = new THREE.MeshLambertMaterial({ color: 0xFF0000, side: THREE.DoubleSide });
+            const planeMaterial = new THREE.MeshLambertMaterial({ color: 0x46C809, side: THREE.DoubleSide });
             const mesh = new THREE.Mesh(planeGeometry, planeMaterial);
             mesh.position.set(-100, -200, -100);
             mesh.rotation.set(0.5 * Math.PI, 0, 0);
@@ -46,7 +46,7 @@ export default {
         addSphere() {
             const sphereGeometry = new THREE.SphereGeometry(100, 32, 16)
             const sphereMaterial = new THREE.MeshBasicMaterial({
-                color: "blue",
+                color: 0xDDF527,
                 wireframe: true
             })
 
@@ -68,7 +68,7 @@ export default {
             const helicoidMesh = new THREE.Mesh(geometry, material);
             helicoidMesh.scale.set(100, 100, 100)
 
-            scene.add(helicoidMesh).add(helicoidMesh);
+            this.graph.scene().add(helicoidMesh);
 
 
         },
@@ -76,20 +76,6 @@ export default {
             let alpha = Math.PI * 2 * (u - 0.5); // transformer u en (u-0.5) double
             let theta = Math.PI * 2 * (v - 0.5); // multiplie le couches (v - 0.5); sympa : (v - 0.1);
             let torsion = 5
-            // sphere
-            // let x = Math.sin(alpha)*Math.cos(theta)
-            // let y = Math.sin(alpha)*Math.sin(theta)
-            // let z = Math.cos(alpha)
-
-            // test
-            //  let x = Math.sin(alpha)*Math.cos(theta)
-            //  let y = Math.sin(alpha/4)*Math.sin(theta)
-            //  let z = Math.cos(alpha)
-
-            // test
-            // let x = Math.sin(alpha)*Math.cos(theta)
-            // let y = Math.sin(alpha*4)*Math.sin(theta)
-            // let z = Math.cos(alpha)
 
             // hyperbola
             let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
@@ -98,23 +84,12 @@ export default {
             let z = (Math.sinh(theta) * Math.sin(torsion * alpha)) / bottom;
             let y = (Math.cosh(theta) * Math.sinh(alpha)) / bottom;
             //console.log(x,y,z)
-
-            // selon video à 24 mins // pyramide
-            // let x = Math.sinh(alpha) * Math.cos(params.torsion * theta)/bottom
-            // let y = Math.sinh(alpha) * Math.sin(params.torsion * theta)/bottom
-            // let z = Math.sinh(alpha) * Math.cosh(theta)/bottom
-
-            // selon video à 27 mins // pyramide
-            // let x = (Math.sinh(alpha) * Math.cos(params.torsion * theta)) / bottom;
-            // let y = (Math.sinh(alpha) * Math.sin(params.torsion * theta)) / bottom;
-            // let z = (2 * Math.cosh(theta) * Math.sinh(alpha)) / bottom;
-
             target.set(x, y, z);
         },
         getMaterial() {
             let material = new THREE.MeshPhysicalMaterial({
-                color: 0xcc0000,
-                emissive: 0x26a269,
+                color: "red",
+                // emissive: 0x26a269,
                 // color: 0xffff00,
                 roughness: 0,
                 metalness: 0.5,

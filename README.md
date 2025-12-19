@@ -1,6 +1,6 @@
 # helyfe
 
-- erreur avec firefox -> utiliser Google Chrome, ou Microsoft Edge
+- erreur avec firefox -> utiliser Google Chrome, ou Microsoft Edge ? https://github.com/mrdoob/three.js/issues/29916 ?
 
 ````
 Uncaught TypeError: can't access property "VERTEX", GPUShaderStage is undefined

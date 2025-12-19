@@ -1,5 +1,15 @@
 # helyfe
 
+- erreur avec firefox -> utiliser Google Chrome, ou Microsoft Edge
+
+````
+Uncaught TypeError: can't access property "VERTEX", GPUShaderStage is undefined
+    <anonymous> three.webgpu.js:73274
+    ```
+
+
+
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
@@ -9,7 +19,7 @@ This template should help get you started developing with Vue 3 in Vite.
 ## Recommended Browser Setup
 
 - Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
+  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
   - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
 - Firefox:
   - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
@@ -23,7 +33,7 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 
 ```sh
 npm install
-```
+````
 
 ### Compile and Hot-Reload for Development
 

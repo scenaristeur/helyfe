@@ -18,6 +18,9 @@ export default {
         this.addPlane()
         this.addSphere()
         this.addHelicoid()
+
+        // Démarrer l'animation des nodes
+        this.startNodeAnimation();
     },
     methods: {
         initGraph() {
@@ -131,11 +134,11 @@ export default {
                 color: "red",
                 // emissive: 0x26a269,
                 // color: 0xffff00,
-                roughness: 0,
-                metalness: 0.5,
-                reflectivity: 0.5,
-                clearcoat: 1,
-                clearcoatRoughness: 0.4,
+                roughness: 0.5, // Réduction de la rugosité
+                metalness: 0.2, // Réduction de la métallicité
+                reflectivity: 0.2, // Réduction de la réflectivité
+                clearcoat: 0.5, // Réduction du clearcoat
+                clearcoatRoughness: 0.7, // Réduction de la rugosité du clearcoat
                 // flatShading: true,
                 side: THREE.DoubleSide,
                 //fog: true,
@@ -161,7 +164,9 @@ export default {
             const sphereGeometry = new THREE.SphereGeometry(0.5, 16, 16); // Réduction de la taille
             const sphereMaterial = new THREE.MeshBasicMaterial({
                 color: 0xffffff, // Blanc pour une meilleure contraste avec le rouge
-                wireframe: false
+                wireframe: false,
+                transparent: true,
+                opacity: 0.7 // Réduction de la transparence pour diminuer la luminosité
             });
 
             const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
@@ -216,6 +221,60 @@ export default {
 
                 this.graph.scene().add(sphereMesh);
             });
+        },
+        startNodeAnimation() {
+            // Stocker les positions originales des nodes
+            this.originalPositions = {};
+            const nodes = this.graph.graphData().nodes;
+
+            // Sauvegarder les positions originales
+            nodes.forEach(node => {
+                this.originalPositions[node.id] = { x: node.x, y: node.y, z: node.z };
+            });
+
+            // Démarrer l'animation
+            setInterval(() => {
+                this.animateNodes();
+            }, 10000); // Tous les 10 secondes
+        },
+        animateNodes() {
+            const nodes = this.graph.graphData().nodes;
+            const currentTime = Date.now();
+
+            // Choisir le prochain node à animer (en ordre)
+            const nodeId = (currentTime / 10000) % nodes.length | 0;
+
+            // Obtenir le node à animer
+            const node = nodes.find(n => n.id === nodeId);
+            if (!node || !this.originalPositions[nodeId]) return;
+
+            // Calculer la position cible (position originale)
+            const targetPosition = this.originalPositions[nodeId];
+
+            // Animer le node vers sa position originale (avec interpolation)
+            const animationDuration = 2000; // 2 secondes pour l'animation
+            const startTime = Date.now();
+
+            const animate = () => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / animationDuration, 1);
+
+                // Interpolation linéaire entre la position actuelle et la position cible
+                const easedProgress = 1 - Math.pow(1 - progress, 3); // Easing function
+
+                node.x = node.x + (targetPosition.x - node.x) * easedProgress;
+                node.y = node.y + (targetPosition.y - node.y) * easedProgress;
+                node.z = node.z + (targetPosition.z - node.z) * easedProgress;
+
+                // Mettre à jour le graphique
+                this.graph.graphData({ nodes: nodes, links: this.graph.graphData().links });
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            };
+
+            animate();
         }
         // update() {
         //     if (this.graph != undefined) {

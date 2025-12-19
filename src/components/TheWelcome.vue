@@ -22,18 +22,55 @@ export default {
     methods: {
         initGraph() {
             const N = 300;
+
+            // Générer les nodes aux positions extrêmes de l'helicoid
             const gData = {
-                nodes: [...Array(N).keys()].map(i => ({ id: i })),
-                links: [...Array(N).keys()]
-                    .filter(id => id)
-                    .map(id => ({
-                        source: id,
-                        target: Math.round(Math.random() * (id - 1))
-                    }))
+                nodes: [],
+                links: []
             };
+
+            // Créer les nodes en utilisant les vertices de l'helicoid
+            const geometry = new ParametricGeometry(this.Helicoid, 100, 50);
+            const vertices = geometry.attributes.position.array;
+
+            // Prendre les premiers vertices pour positionner les nodes
+            for (let i = 0; i < N; i++) {
+                const index = (i % (vertices.length / 3)) * 3; // Sélectionner un vertex
+                if (index < vertices.length) {
+                    const x = vertices[index];
+                    const y = vertices[index + 1];
+                    const z = vertices[index + 2];
+
+                    gData.nodes.push({
+                        id: i,
+                        x: x * 100, // Appliquer l'échelle
+                        y: y * 100,
+                        z: z * 100
+                    });
+                } else {
+                    // Fallback si on dépasse
+                    gData.nodes.push({
+                        id: i,
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    });
+                }
+            }
+
+            // Créer les liens
+            gData.links = [...Array(N).keys()]
+                .filter(id => id)
+                .map(id => ({
+                    source: id,
+                    target: Math.round(Math.random() * (id - 1))
+                }));
 
             this.graph = new ForceGraph3D(document.getElementById('3d-graph'))
                 .graphData(gData);
+
+            // Ajouter des sphères bleues aux mêmes positions que les nodes
+            this.addBlueSpheresAtNodePositions(gData.nodes, geometry);
         },
         addPlane() {
             const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1);
@@ -61,7 +98,7 @@ export default {
         },
         addHelicoid() {
             // let params = { torsion: 5, speed: 1000 };
-            let geometry = new ParametricGeometry(this.Helicoid, 360, 254);
+            let geometry = new ParametricGeometry(this.Helicoid, 100, 50); // Réduction du nombre de vertices
             let material = this.getMaterial();
 
             // Setup a mesh with geometry + material
@@ -69,6 +106,9 @@ export default {
             helicoidMesh.scale.set(100, 100, 100)
 
             this.graph.scene().add(helicoidMesh);
+
+            // Ajout d'une sphère sur le bord de l'helicoid
+            this.addSphereOnHelicoidEdge(geometry);
 
 
         },
@@ -99,7 +139,7 @@ export default {
                 // flatShading: true,
                 side: THREE.DoubleSide,
                 //fog: true,
-                //wireframe: true
+                wireframe: true
             });
 
             material.onBeforeComplete = function (shader) {
@@ -115,6 +155,67 @@ export default {
             };
 
             return material;
+        },
+        addSphereOnHelicoidEdge(geometry) {
+            // Création d'une sphère pour représenter le bord de l'helicoid
+            const sphereGeometry = new THREE.SphereGeometry(0.5, 16, 16); // Réduction de la taille
+            const sphereMaterial = new THREE.MeshBasicMaterial({
+                color: 0xffffff, // Blanc pour une meilleure contraste avec le rouge
+                wireframe: false
+            });
+
+            const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+            // Positionner la sphère sur le bord de l'helicoid
+            // Utilisons u=0 et v=0 pour obtenir un point au bord
+            const u = 0;
+            const v = 0;
+            const target = new THREE.Vector3();
+
+            // Utilisation directe des points de la géométrie plutôt que de recalculer
+            if (geometry) {
+                // Récupérer le point depuis la géométrie déjà calculée
+                const vertices = geometry.attributes.position.array;
+                const index = (u * 254 + v) * 3; // Calcul de l'index dans le tableau des sommets
+                if (index < vertices.length) {
+                    target.set(vertices[index], vertices[index + 1], vertices[index + 2]);
+                } else {
+                    // Fallback vers le calcul classique si nécessaire
+                    this.Helicoid(u, v, target);
+                }
+            } else {
+                // Fallback vers le calcul classique
+                this.Helicoid(u, v, target);
+            }
+
+            // Appliquer l'échelle et la position
+            sphereMesh.position.copy(target);
+            sphereMesh.scale.set(100, 100, 100);
+
+            this.graph.scene().add(sphereMesh);
+        },
+        addBlueSpheresAtNodePositions(nodes, geometry) {
+            // Créer des sphères bleues aux positions des nodes
+            const sphereGeometry = new THREE.SphereGeometry(2, 16, 16); // Taille plus petite
+            const sphereMaterial = new THREE.MeshBasicMaterial({
+                color: 0x0000ff, // Bleu pour les sphères
+                wireframe: false
+            });
+
+            const vertices = geometry.attributes.position.array;
+
+            // Ajouter une sphère bleue pour chaque node
+            nodes.forEach((node, index) => {
+                const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+                // Positionner la sphère à la position du node
+                sphereMesh.position.set(node.x, node.y, node.z);
+
+                // Appliquer l'échelle
+                sphereMesh.scale.set(1, 1, 1); // Pas d'échelle supplémentaire ici
+
+                this.graph.scene().add(sphereMesh);
+            });
         }
         // update() {
         //     if (this.graph != undefined) {

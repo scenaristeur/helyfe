@@ -75,7 +75,7 @@ class MainScene extends Scene3D {
         // this.deconstructor.add(FLAT /* same effect as FLAT.destroy */, orbitControls)
 
         // enable physics debug
-        this.physics.debug.enable()
+        // this.physics.debug.enable()
 
         // position camera
         this.camera.position.set(10, 10, 20)

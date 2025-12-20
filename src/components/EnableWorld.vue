@@ -28,6 +28,7 @@ const loader = new STLLoader()
 
 
 import { Man } from './man.js'
+import { Day } from './day.js'
 
 /**
 * Is touch device?
@@ -54,6 +55,7 @@ class MainScene extends Scene3D {
 
     async preload() {
         // preload your assets here
+        await this.loadDayView(this)
 
     }
 
@@ -169,14 +171,18 @@ class MainScene extends Scene3D {
         // }, 500)
 
     }
-
+    async loadDayView(scene) {
+        console.log(scene)
+        let day = new Day(scene)
+        console.log(day)
+    }
     jump() {
         if (!this.man || !this.canJump) return
         this.canJump = false
-        this.man.animation.play('jump_running', 500, false)
+        this.man.anims.play('jump_running', 500, false)
         setTimeout(() => {
             this.canJump = true
-            this.man.animation.play('idle')
+            this.man.anims.play('idle')
         }, 650)
         this.man.body.applyForceY(6)
     }
@@ -240,7 +246,7 @@ class MainScene extends Scene3D {
             }
 
             if (this.keys.w.isDown || this.move) {
-                if (this.man.animation.current === 'idle' && this.canJump) this.man.animation.play('run')
+                if (this.man.anims.current === 'idle' && this.canJump) this.man.anims.play('run')
 
                 const x = Math.sin(theta) * speed,
                     y = this.man.body.velocity.y,
@@ -248,7 +254,7 @@ class MainScene extends Scene3D {
 
                 this.man.body.setVelocity(x, y, z)
             } else {
-                if (this.man.animation.current === 'run' && this.canJump) this.man.animation.play('idle')
+                if (this.man.anims.current === 'run' && this.canJump) this.man.anims.play('idle')
             }
 
             /**

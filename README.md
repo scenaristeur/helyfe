@@ -53,3 +53,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+# other tools
+
+- https://pixijs.com/ & https://pixijs.download/v7.1.0-alpha/docs/index.html

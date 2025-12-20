@@ -56,13 +56,13 @@ export class Man {
     /**
     * Animations
     */
-    this.ctx.animationMixers.add(this.ctx.man.animation.mixer)
+    this.ctx.animationMixers.add(this.ctx.man.anims.mixer)
     object.animations.forEach(animation => {
       if (animation.name) {
-        this.ctx.man.animation.add(animation.name, animation)
+        this.ctx.man.anims.add(animation.name, animation)
       }
     })
-    this.ctx.man.animation.play('idle')
+    this.ctx.man.anims.play('idle')
 
     /**
     * Add the player to the scene with a body

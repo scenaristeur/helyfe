@@ -7,6 +7,13 @@ Uncaught TypeError: can't access property "VERTEX", GPUShaderStage is undefined
     <anonymous> three.webgpu.js:73274
     ```
 
+# decoupage des scenes monde 3D
+- reprendre https://github.com/scenaristeur/noos/blob/main/src/helpers/enable3d/MainScene.js
+
+- personnage inspiration : https://github.com/enable3d/enable3d-website/blob/master/src/examples/medieval-fantasy-book-standalone.html
+
+
+
 
 
 

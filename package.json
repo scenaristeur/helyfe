@@ -13,7 +13,9 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@enable3d/ammo-on-nodejs": "^0.26.1",
     "3d-force-graph": "^1.79.0",
+    "enable3d": "^0.26.1",
     "three-spritetext": "^1.10.0",
     "uuid": "^13.0.0",
     "vue": "^3.5.25",

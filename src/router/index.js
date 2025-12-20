@@ -7,7 +7,24 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      // component: HomeView,
+      component: () => import('../views/EnableView.vue'),
+    },
+    {
+      path: '/boussole',
+      name: 'boussole',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/BoussoleView.vue'),
+    },
+    {
+      path: '/enable',
+      name: 'enable',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/EnableView.vue'),
     },
     {
       path: '/about',

@@ -90,6 +90,9 @@ const mutations = {
     setStarts(state, s) {
         state.starts = s
     },
+    setNodes(state, n) {
+        state.nodes = n
+    },
     spinnerAdd(state, t) {
         state.spinner.push(t)
     },
@@ -328,6 +331,63 @@ const actions = {
         //context.state.pod.brains.push(brain)
         console.log(brain)
         // Vue.prototype.$addBrainToPod(brain)
+    },
+
+    // Ajout d'une action pour intégrer les données de graphe
+    integrateGraphData(context, graphData) {
+        return new Promise((resolve, reject) => {
+            try {
+                // Vérifier que les données contiennent les champs requis
+                if (!graphData.nodes || !graphData.links) {
+                    throw new Error("Les données doivent contenir 'nodes' et 'links'");
+                }
+
+                // Fusionner les nouveaux nodes avec ceux existants
+                const existingNodeIds = new Set(context.state.nodes.map(n => n.id));
+                const newNodes = graphData.nodes.filter(node => !existingNodeIds.has(node.id));
+
+                // Mettre à jour les nodes existants avec les nouvelles données
+                const updatedNodes = context.state.nodes.map(existingNode => {
+                    const newNode = graphData.nodes.find(n => n.id === existingNode.id);
+                    return newNode ? { ...existingNode, ...newNode } : existingNode;
+                });
+
+                // Fusionner les nouveaux links avec ceux existants
+                const existingLinkKeys = new Set(context.state.links.map(link =>
+                    `${link.source}-${link.target}`
+                ));
+                const newLinks = graphData.links.filter(link => {
+                    const key = `${link.source}-${link.target}`;
+                    return !existingLinkKeys.has(key);
+                });
+
+                // Mettre à jour les links existants avec les nouvelles données
+                const updatedLinks = context.state.links.map(existingLink => {
+                    const newLink = graphData.links.find(l =>
+                        l.source === existingLink.source && l.target === existingLink.target
+                    );
+                    return newLink ? { ...existingLink, ...newLink } : existingLink;
+                });
+
+                // Ajouter les nouveaux nodes et links
+                // Pour les nodes, on combine les nodes mis à jour avec les nouveaux
+                const allNodes = [...updatedNodes, ...newNodes];
+                context.commit('setNodes', allNodes);
+
+                // Pour les links, on combine les links mis à jour avec les nouveaux
+                const allLinks = [...updatedLinks, ...newLinks];
+                context.commit('setLinks', allLinks);
+
+                resolve({
+                    nodesAdded: newNodes.length,
+                    linksAdded: newLinks.length,
+                    nodesUpdated: updatedNodes.length - newNodes.length,
+                    linksUpdated: updatedLinks.length - newLinks.length
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
     },
 
     // async addWorkspace(context, w) {

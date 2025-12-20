@@ -1,0 +1,354 @@
+{
+    "nodes": [
+        {
+            "id": "node1",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "val": 5,
+            "color": "red",
+            "name": "Node 1"
+        },
+        {
+            "id": "node2",
+            "x": 100,
+            "y": 0,
+            "z": 0,
+            "val": 10,
+            "color": "blue",
+            "name": "Node 2"
+        },
+        {
+            "id": "node3",
+            "x": 0,
+            "y": 100,
+            "z": 0,
+            "val": 15,
+            "color": "green",
+            "name": "Node 3"
+        },
+        {
+            "id": "node4",
+            "x": 100,
+            "y": 100,
+            "z": 0,
+            "val": 8,
+            "color": "yellow",
+            "name": "Node 4"
+        },
+        {
+            "id": "node5",
+            "x": 50,
+            "y": 50,
+            "z": 0,
+            "val": 12,
+            "color": "purple",
+            "name": "Node 5"
+        },
+        {
+            "id": "node6",
+            "x": 150,
+            "y": 50,
+            "z": 0,
+            "val": 20,
+            "color": "orange",
+            "name": "Node 6"
+        },
+        {
+            "id": "node7",
+            "x": 50,
+            "y": 150,
+            "z": 0,
+            "val": 7,
+            "color": "pink",
+            "name": "Node 7"
+        },
+        {
+            "id": "node8",
+            "x": 150,
+            "y": 150,
+            "z": 0,
+            "val": 18,
+            "color": "cyan",
+            "name": "Node 8"
+        },
+        {
+            "id": "node9",
+            "x": 200,
+            "y": 0,
+            "z": 0,
+            "val": 9,
+            "color": "magenta",
+            "name": "Node 9"
+        },
+        {
+            "id": "node10",
+            "x": 200,
+            "y": 100,
+            "z": 0,
+            "val": 14,
+            "color": "lime",
+            "name": "Node 10"
+        },
+        {
+            "id": "node11",
+            "x": 0,
+            "y": 200,
+            "z": 0,
+            "val": 6,
+            "color": "brown",
+            "name": "Node 11"
+        },
+        {
+            "id": "node12",
+            "x": 100,
+            "y": 200,
+            "z": 0,
+            "val": 16,
+            "color": "gray",
+            "name": "Node 12"
+        },
+        {
+            "id": "node13",
+            "x": 200,
+            "y": 200,
+            "z": 0,
+            "val": 11,
+            "color": "olive",
+            "name": "Node 13"
+        },
+        {
+            "id": "node14",
+            "x": 250,
+            "y": 50,
+            "z": 0,
+            "val": 13,
+            "color": "navy",
+            "name": "Node 14"
+        },
+        {
+            "id": "node15",
+            "x": 250,
+            "y": 150,
+            "z": 0,
+            "val": 17,
+            "color": "teal",
+            "name": "Node 15"
+        },
+        {
+            "id": "node16",
+            "x": 50,
+            "y": 250,
+            "z": 0,
+            "val": 4,
+            "color": "maroon",
+            "name": "Node 16"
+        },
+        {
+            "id": "node17",
+            "x": 150,
+            "y": 250,
+            "z": 0,
+            "val": 22,
+            "color": "silver",
+            "name": "Node 17"
+        },
+        {
+            "id": "node18",
+            "x": 250,
+            "y": 250,
+            "z": 0,
+            "val": 25,
+            "color": "gold",
+            "name": "Node 18"
+        },
+        {
+            "id": "node19",
+            "x": 300,
+            "y": 0,
+            "z": 0,
+            "val": 3,
+            "color": "indigo",
+            "name": "Node 19"
+        },
+        {
+            "id": "node20",
+            "x": 300,
+            "y": 100,
+            "z": 0,
+            "val": 21,
+            "color": "coral",
+            "name": "Node 20"
+        }
+    ],
+    "links": [
+        {
+            "source": "node1",
+            "target": "node2",
+            "color": "red",
+            "width": 2,
+            "curvature": 0.1
+        },
+        {
+            "source": "node2",
+            "target": "node3",
+            "color": "blue",
+            "width": 1.5,
+            "curvature": 0.05
+        },
+        {
+            "source": "node3",
+            "target": "node4",
+            "color": "green",
+            "width": 1,
+            "curvature": 0
+        },
+        {
+            "source": "node4",
+            "target": "node1",
+            "color": "yellow",
+            "width": 2.5,
+            "curvature": 0.15
+        },
+        {
+            "source": "node5",
+            "target": "node6",
+            "color": "purple",
+            "width": 1.8,
+            "curvature": 0.08
+        },
+        {
+            "source": "node6",
+            "target": "node7",
+            "color": "orange",
+            "width": 1.2,
+            "curvature": 0.03
+        },
+        {
+            "source": "node7",
+            "target": "node8",
+            "color": "pink",
+            "width": 1.6,
+            "curvature": 0.12
+        },
+        {
+            "source": "node8",
+            "target": "node5",
+            "color": "cyan",
+            "width": 1.4,
+            "curvature": 0.07
+        },
+        {
+            "source": "node1",
+            "target": "node5",
+            "color": "magenta",
+            "width": 1.3,
+            "curvature": 0.09
+        },
+        {
+            "source": "node2",
+            "target": "node6",
+            "color": "lime",
+            "width": 1.7,
+            "curvature": 0.11
+        },
+        {
+            "source": "node3",
+            "target": "node7",
+            "color": "brown",
+            "width": 1.1,
+            "curvature": 0.06
+        },
+        {
+            "source": "node4",
+            "target": "node8",
+            "color": "gray",
+            "width": 1.9,
+            "curvature": 0.13
+        },
+        {
+            "source": "node9",
+            "target": "node10",
+            "color": "olive",
+            "width": 2.2,
+            "curvature": 0.14
+        },
+        {
+            "source": "node10",
+            "target": "node11",
+            "color": "navy",
+            "width": 1.5,
+            "curvature": 0.04
+        },
+        {
+            "source": "node11",
+            "target": "node12",
+            "color": "teal",
+            "width": 1.8,
+            "curvature": 0.02
+        },
+        {
+            "source": "node12",
+            "target": "node9",
+            "color": "maroon",
+            "width": 2.1,
+            "curvature": 0.16
+        },
+        {
+            "source": "node13",
+            "target": "node14",
+            "color": "silver",
+            "width": 1.6,
+            "curvature": 0.05
+        },
+        {
+            "source": "node14",
+            "target": "node15",
+            "color": "gold",
+            "width": 1.4,
+            "curvature": 0.08
+        },
+        {
+            "source": "node15",
+            "target": "node16",
+            "color": "indigo",
+            "width": 1.9,
+            "curvature": 0.1
+        },
+        {
+            "source": "node16",
+            "target": "node17",
+            "color": "coral",
+            "width": 1.3,
+            "curvature": 0.07
+        },
+        {
+            "source": "node17",
+            "target": "node18",
+            "color": "red",
+            "width": 2.3,
+            "curvature": 0.18
+        },
+        {
+            "source": "node18",
+            "target": "node13",
+            "color": "blue",
+            "width": 1.7,
+            "curvature": 0.09
+        },
+        {
+            "source": "node19",
+            "target": "node20",
+            "color": "green",
+            "width": 1.2,
+            "curvature": 0.06
+        },
+        {
+            "source": "node20",
+            "target": "node1",
+            "color": "yellow",
+            "width": 2.0,
+            "curvature": 0.12
+        }
+    ]
+}

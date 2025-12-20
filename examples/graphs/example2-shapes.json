@@ -1,0 +1,228 @@
+{
+    "nodes": [
+        {
+            "id": "node1",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "val": 5,
+            "nodeColor": "red",
+            "name": "Node 1"
+        },
+        {
+            "id": "node2",
+            "x": 100,
+            "y": 0,
+            "z": 0,
+            "val": 10,
+            "nodeColor": "blue",
+            "name": "Node 2"
+        },
+        {
+            "id": "node3",
+            "x": 100,
+            "y": 100,
+            "z": 0
+        },
+        {
+            "id": "node4",
+            "x": 100,
+            "y": 100,
+            "z": 0
+        },
+        {
+            "id": "node5",
+            "x": 50,
+            "y": 50,
+            "z": 0
+        },
+        {
+            "id": "node6",
+            "x": 150,
+            "y": 50,
+            "z": 0
+        },
+        {
+            "id": "node7",
+            "x": 50,
+            "y": 150,
+            "z": 0
+        },
+        {
+            "id": "node8",
+            "x": 150,
+            "y": 150,
+            "z": 0
+        },
+        {
+            "id": "node9",
+            "x": 200,
+            "y": 0,
+            "z": 0
+        },
+        {
+            "id": "node10",
+            "x": 200,
+            "y": 100,
+            "z": 0
+        },
+        {
+            "id": "node11",
+            "x": 0,
+            "y": 200,
+            "z": 0
+        },
+        {
+            "id": "node12",
+            "x": 100,
+            "y": 200,
+            "z": 0
+        },
+        {
+            "id": "node13",
+            "x": 200,
+            "y": 200,
+            "z": 0
+        },
+        {
+            "id": "node14",
+            "x": 250,
+            "y": 50,
+            "z": 0
+        },
+        {
+            "id": "node15",
+            "x": 250,
+            "y": 150,
+            "z": 0
+        },
+        {
+            "id": "node16",
+            "x": 50,
+            "y": 250,
+            "z": 0
+        },
+        {
+            "id": "node17",
+            "x": 150,
+            "y": 250,
+            "z": 0
+        },
+        {
+            "id": "node18",
+            "x": 250,
+            "y": 250,
+            "z": 0
+        },
+        {
+            "id": "node19",
+            "x": 300,
+            "y": 0,
+            "z": 0
+        },
+        {
+            "id": "node20",
+            "x": 300,
+            "y": 100,
+            "z": 0
+        }
+    ],
+    "links": [
+        {
+            "source": "node1",
+            "target": "node2"
+        },
+        {
+            "source": "node2",
+            "target": "node3"
+        },
+        {
+            "source": "node3",
+            "target": "node4"
+        },
+        {
+            "source": "node4",
+            "target": "node1"
+        },
+        {
+            "source": "node5",
+            "target": "node6"
+        },
+        {
+            "source": "node6",
+            "target": "node7"
+        },
+        {
+            "source": "node7",
+            "target": "node8"
+        },
+        {
+            "source": "node8",
+            "target": "node5"
+        },
+        {
+            "source": "node1",
+            "target": "node5"
+        },
+        {
+            "source": "node2",
+            "target": "node6"
+        },
+        {
+            "source": "node3",
+            "target": "node7"
+        },
+        {
+            "source": "node4",
+            "target": "node8"
+        },
+        {
+            "source": "node9",
+            "target": "node10"
+        },
+        {
+            "source": "node10",
+            "target": "node11"
+        },
+        {
+            "source": "node11",
+            "target": "node12"
+        },
+        {
+            "source": "node12",
+            "target": "node9"
+        },
+        {
+            "source": "node13",
+            "target": "node14"
+        },
+        {
+            "source": "node14",
+            "target": "node15"
+        },
+        {
+            "source": "node15",
+            "target": "node16"
+        },
+        {
+            "source": "node16",
+            "target": "node17"
+        },
+        {
+            "source": "node17",
+            "target": "node18"
+        },
+        {
+            "source": "node18",
+            "target": "node13"
+        },
+        {
+            "source": "node19",
+            "target": "node20"
+        },
+        {
+            "source": "node20",
+            "target": "node1"
+        }
+    ]
+}

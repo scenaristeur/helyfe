@@ -1,12 +1,20 @@
 <template>
-    <div id="3d-graph" width="100px" ref="graph">Loading graph...</div>
+    <div>
+        <div id="3d-graph" width="100px" ref="graph">Loading graph...</div>
+        <JsonUploadComponent />
+    </div>
 </template>
 <script>
 import ForceGraph3D from '3d-force-graph';
 import * as THREE from 'three';
 import { ParametricGeometry } from 'three/addons/geometries/ParametricGeometry.js';
+import JsonUploadComponent from './JsonUploadComponent.vue';
+
 export default {
     name: "BoussoleComponenet",
+    components: {
+        JsonUploadComponent
+    },
     // data() {
     //     // return {
     //     //     graph: null
@@ -24,7 +32,7 @@ export default {
     },
     methods: {
         initGraph() {
-            const N = 300;
+            const N = 30;
 
             // Générer les nodes aux positions extrêmes de l'helicoid
             const gData = {
@@ -275,6 +283,16 @@ export default {
             };
 
             animate();
+        },
+        updateGraphData() {
+            // Mettre à jour le graphique avec les nouveaux nodes et links
+            if (this.graph) {
+                const graphData = {
+                    nodes: this.$store.state.core.nodes,
+                    links: this.$store.state.core.links
+                };
+                this.graph.graphData(graphData);
+            }
         }
         // update() {
         //     if (this.graph != undefined) {
@@ -307,6 +325,21 @@ export default {
         //     return this.$store.state.core.graph
         // }
     },
+    watch: {
+        // Surveiller les changements dans les nodes et links du store
+        '$store.state.core.nodes': {
+            handler(newNodes) {
+                this.updateGraphData();
+            },
+            deep: true
+        },
+        '$store.state.core.links': {
+            handler(newLinks) {
+                this.updateGraphData();
+            },
+            deep: true
+        }
+    }
 }
 </script>
 

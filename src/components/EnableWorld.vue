@@ -5,10 +5,13 @@
 // import the UMD bundle enable3d.framework.min.js
 // or from npm enable3d
 import { Project, Scene3D, PhysicsLoader } from 'enable3d'
+import { Man } from './man.js'
 
 class MainScene extends Scene3D {
     constructor() {
         super('MainScene')
+        let scene = this
+        // this.base_url = process.env.BASE_URL
     }
 
     async init() {
@@ -35,11 +38,23 @@ class MainScene extends Scene3D {
 
         // pink box (with physics)
         this.physics.add.box({ y: 10 }, { lambert: { color: 'hotpink' } })
+
+        // Ajout du personnage
+        // this.man = new Man();
+        // await this.man.loadModel(this);
+        let man = new Man(this)
+        man.add()
+
     }
 
     update() {
         // this.box.rotation.x += 0.01
         // this.box.rotation.y += 0.01
+
+        // Mise à jour du personnage
+        // if (this.man) {
+        //     this.man.update();
+        // }
     }
 }
 

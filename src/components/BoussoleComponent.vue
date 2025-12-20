@@ -6,7 +6,7 @@ import ForceGraph3D from '3d-force-graph';
 import * as THREE from 'three';
 import { ParametricGeometry } from 'three/addons/geometries/ParametricGeometry.js';
 export default {
-    name: "WelcomeView",
+    name: "BoussoleComponenet",
     // data() {
     //     // return {
     //     //     graph: null

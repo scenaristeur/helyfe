@@ -1,11 +1,11 @@
 <template>
   <main>
-    <TheWelcome />
+    <BoussoleComponent />
   </main>
 </template>
 
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import BoussoleComponent from '../components/BoussoleComponent.vue';
 </script>
 
 <!-- <style>

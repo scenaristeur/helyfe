@@ -32,7 +32,7 @@ export default {
     },
     methods: {
         initGraph() {
-            const N = 30;
+            const N = 100;
 
             // Générer les nodes aux positions extrêmes de l'helicoid
             const gData = {
@@ -41,7 +41,7 @@ export default {
             };
 
             // Créer les nodes en utilisant les vertices de l'helicoid
-            const geometry = new ParametricGeometry(this.Helicoid, 100, 50);
+            const geometry = new ParametricGeometry(this.Helicoid, 100, 5);
             const vertices = geometry.attributes.position.array;
 
             // Prendre les premiers vertices pour positionner les nodes

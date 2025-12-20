@@ -46,11 +46,28 @@ class MainScene extends Scene3D {
         this.renderer.setPixelRatio(1)
         this.renderer.setSize(window.innerWidth, window.innerHeight)
 
+
+
+
+        // const resize = () => {
+        //     let container = document.getElementById("enable3d-container").parentNode.parentElement
+        //     const newWidth = container.innerWidth
+        //     const newHeight = container.innerHeight
+
+        //     this.renderer.setSize(newWidth, newHeight)
+        //     // this.camera.aspect = newWidth / newHeight
+        //     // this.camera.updateProjectionMatrix()
+        // }
+
+        // window.onresize = resize
+        // resize()
+
         this.canJump = true
         this.move = false
 
         this.moveTop = 0
         this.moveRight = 0
+
     }
 
     async preload() {

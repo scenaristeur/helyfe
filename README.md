@@ -1,21 +1,14 @@
 # helyfe
 
-- erreur avec firefox -> utiliser Google Chrome, ou Microsoft Edge ? https://github.com/mrdoob/three.js/issues/29916 ?
-
-````
-Uncaught TypeError: can't access property "VERTEX", GPUShaderStage is undefined
-    <anonymous> three.webgpu.js:73274
-    ```
+Fonction sous firefox, pas chrome
 
 # decoupage des scenes monde 3D
+
 - reprendre https://github.com/scenaristeur/noos/blob/main/src/helpers/enable3d/MainScene.js
 
 - personnage inspiration : https://github.com/enable3d/enable3d-website/blob/master/src/examples/medieval-fantasy-book-standalone.html
 
-
-
-
-
+- actions sur le graph : https://github.com/scenaristeur/agent/blob/main/src/plugins/graph3d-plugin.js
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -40,7 +33,7 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 
 ```sh
 npm install
-````
+```
 
 ### Compile and Hot-Reload for Development
 

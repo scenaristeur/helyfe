@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import NodeDetail from './components/NodeDetail.vue';
 // import HelloWorld from './components/HelloWorld.vue'
 </script>
 
@@ -9,6 +10,8 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <div class="wrapper">
       <!-- <HelloWorld msg="You did it!" /> -->
+      d
+      <NodeDetail />d
 
       <nav>
         <RouterLink to="/">Home</RouterLink>

@@ -1,0 +1,9 @@
+<script setup>
+import BoussoleComponenet from '../components/BoussoleComponent.vue'
+</script>
+
+<template>
+  <main>
+    <BoussoleComponenet />
+  </main>
+</template>

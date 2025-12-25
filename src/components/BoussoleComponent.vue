@@ -9,9 +9,10 @@ import ForceGraph3D from '3d-force-graph';
 import * as THREE from 'three';
 import { ParametricGeometry } from 'three/addons/geometries/ParametricGeometry.js';
 import JsonUploadComponent from './JsonUploadComponent.vue';
+import { onDeactivated } from 'vue';
 
 export default {
-    name: "BoussoleComponenet",
+    name: "BoussoleComponent",
     components: {
         JsonUploadComponent
     },
@@ -78,10 +79,38 @@ export default {
                 }));
 
             this.graph = new ForceGraph3D(document.getElementById('3d-graph'))
-                .graphData(gData);
+                .graphData(gData)
+                .onNodeClick(node => this.onNodeClick(node))
 
             // Ajouter des sphères bleues aux mêmes positions que les nodes
             this.addBlueSpheresAtNodePositions(gData.nodes, geometry);
+        },
+        onNodeClick(node) {
+            console.log("node", node)
+
+            // let n = this.$store.state.core.nodes.find(n => n.id == node.id)
+            // let n = this.graph.nodes.find(n => n.id == node.id)
+            this.$store.commit('core/setCurrentNode', node.id)
+            this.nodeFocus(node)
+        },
+        nodeFocus(node) {
+
+
+            const distance = 100;
+            let pos = { x: distance, y: distance, z: distance }
+            if (node.x != 0 && node.y != 0 && node.z != 0) {
+                const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+                pos = { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }
+            }
+            // this.$store.state.core.graph.cameraPosition
+            this.graph.cameraPosition(
+                pos, // new position
+                node, // lookAt ({ x, y, z })
+                3000  // ms transition duration
+            );
+            // console.log(store.state.core.graph)
+
+
         },
         addPlane() {
             const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1);
@@ -240,10 +269,10 @@ export default {
                 this.originalPositions[node.id] = { x: node.x, y: node.y, z: node.z };
             });
 
-            // Démarrer l'animation
-            setInterval(() => {
-                this.animateNodes();
-            }, 10000); // Tous les 10 secondes
+            // Démarrer l'animation test pour remettre le noeud à sa place
+            // setInterval(() => {
+            //     this.animateNodes();
+            // }, 10000); // Tous les 10 secondes
         },
         animateNodes() {
             const nodes = this.graph.graphData().nodes;

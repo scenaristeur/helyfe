@@ -60,6 +60,7 @@ const mutations = {
     },
     setCurrentNode(state, n) {
         state.currentNode = n
+        console.log("current ", n)
     },
     setBrain(state, b) {
         console.log(b)

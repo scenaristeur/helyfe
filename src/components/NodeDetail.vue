@@ -1,39 +1,34 @@
 <template>
-    <div>
-        <!-- <div id="3d-graph" width="100px" ref="graph">Loading graph...</div>
-        <JsonUploadComponent /> -->
-        s {{ currentNode }} s
-
+    <div class="node-detail">
+        <h3>Détails du nœud</h3>
+        <div v-if="currentNode">
+            <p><strong>Nom:</strong> {{ currentNode.name }}</p>
+            <p><strong>ID:</strong> {{ currentNode.id }}</p>
+            <p><strong>Type:</strong> {{ currentNode.type }}</p>
+            <p><strong>Position:</strong> {{ currentNode.x }}, {{ currentNode.y }}, {{ currentNode.z }}</p>
+            <p><strong>Description:</strong> {{ currentNode.description }}</p>
+            <p><strong>Liens sortants:</strong> {{ currentNode.links ? currentNode.links.length : 0 }}</p>
+            <p><strong>Voisins:</strong> {{ currentNode.neighbors ? currentNode.neighbors.length : 0 }}</p>
+        </div>
+        <div v-else>
+            <p>Aucun nœud sélectionné</p>
+        </div>
     </div>
 </template>
-<script>
-// import ForceGraph3D from '3d-force-graph';
-// import * as THREE from 'three';
-// import { ParametricGeometry } from 'three/addons/geometries/ParametricGeometry.js';
-// import JsonUploadComponent from './JsonUploadComponent.vue';
 
+<script>
 export default {
     name: "NodeDetail",
-    components: {
-        // JsonUploadComponent
-    },
     computed: {
         currentNode() {
             return this.$store.state.core.currentNode
-        },
-        // links() {
-        //     return this.$store.state.core.links
-        // },
-        // graph() {
-        //     return this.$store.state.core.graph
-        // }
-    },
-    watch: {
-        currentNode() {
-            console.log("currentNode", this.currentNode)
-        },
+        }
     }
-
 }
-
 </script>
+
+<style scoped>
+.node-detail {
+    padding: 20px;
+}
+</style>

@@ -1,8 +1,18 @@
 <template>
-    <div>
-        <div id="3d-graph" width="100px" ref="graph">Loading graph...</div>
-        <JsonUploadComponent />
-        <SolidConnectComponent />
+    <div class="boussole-container">
+        <div class="toolbar">
+            <SolidLogin />
+            <CommandInput />
+            <button @click="showBrainLoader" class="btn btn-secondary">Load Brain</button>
+            <PodBrowser />
+        </div>
+        <div class="graph-container">
+            <div id="3d-graph" width="100px" ref="graph">Loading graph...</div>
+            <BrainLoader />
+        </div>
+        <div class="sidebar">
+            <NodeEdition />
+        </div>
     </div>
 </template>
 <script>
@@ -35,6 +45,9 @@ export default {
         this.startNodeAnimation();
     },
     methods: {
+        showBrainLoader() {
+            this.$store.commit('core/setShowBrainLoader', true)
+        },
         initGraph() {
             const N = 100;
 

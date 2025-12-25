@@ -2,6 +2,7 @@
     <div>
         <div id="3d-graph" width="100px" ref="graph">Loading graph...</div>
         <JsonUploadComponent />
+        <SolidConnectComponent />
     </div>
 </template>
 <script>
@@ -9,12 +10,14 @@ import ForceGraph3D from '3d-force-graph';
 import * as THREE from 'three';
 import { ParametricGeometry } from 'three/addons/geometries/ParametricGeometry.js';
 import JsonUploadComponent from './JsonUploadComponent.vue';
+import SolidConnectComponent from './SolidConnectComponent.vue';
 import { onDeactivated } from 'vue';
 
 export default {
     name: "BoussoleComponent",
     components: {
-        JsonUploadComponent
+        JsonUploadComponent,
+        SolidConnectComponent
     },
     // data() {
     //     // return {
